@@ -1,6 +1,5 @@
 import 'package:codex_z/core/constants/app_sizes.dart';
 import 'package:codex_z/core/extensions/context_extensions.dart';
-import 'package:codex_z/features/home/presentation/widgets/home_tab_item.dart';
 import 'package:flutter/material.dart';
 
 class HomeSidebar extends StatelessWidget {
@@ -232,4 +231,16 @@ class HomeNavigationTab extends StatelessWidget {
       ),
     );
   }
+}
+
+class HomeTabItem {
+  const HomeTabItem({
+    required this.icon,
+    required this.selectedIcon,
+    required this.label,
+  });
+
+  final IconData icon;
+  final IconData selectedIcon;
+  final String label;
 }
