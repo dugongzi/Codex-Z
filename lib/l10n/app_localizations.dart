@@ -230,6 +230,48 @@ abstract class AppLocalizations {
   /// **'重置'**
   String get reset;
 
+  /// No description provided for @codexAppPath.
+  ///
+  /// In zh, this message translates to:
+  /// **'Codex 路径'**
+  String get codexAppPath;
+
+  /// No description provided for @codexAppPathNotSet.
+  ///
+  /// In zh, this message translates to:
+  /// **'未设置'**
+  String get codexAppPathNotSet;
+
+  /// No description provided for @selectCodexExecutable.
+  ///
+  /// In zh, this message translates to:
+  /// **'选择 Codex 可执行文件'**
+  String get selectCodexExecutable;
+
+  /// No description provided for @codexAlreadyRunning.
+  ///
+  /// In zh, this message translates to:
+  /// **'Codex 已在运行，请先关闭'**
+  String get codexAlreadyRunning;
+
+  /// No description provided for @codexPathRequired.
+  ///
+  /// In zh, this message translates to:
+  /// **'请先在设置中指定 Codex 路径'**
+  String get codexPathRequired;
+
+  /// No description provided for @launchFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'启动失败：{message}'**
+  String launchFailed(String message);
+
+  /// No description provided for @injectSuccess.
+  ///
+  /// In zh, this message translates to:
+  /// **'注入成功'**
+  String get injectSuccess;
+
   /// No description provided for @settingsPersistedDescription.
   ///
   /// In zh, this message translates to:

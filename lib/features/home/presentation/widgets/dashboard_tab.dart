@@ -4,6 +4,7 @@ import 'package:shim/core/constants/app_sizes.dart';
 import 'package:shim/core/extensions/context_extensions.dart';
 import 'package:shim/features/home/presentation/providers/inject_action_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DashboardTab extends ConsumerWidget {
@@ -36,13 +37,26 @@ class DashboardTab extends ConsumerWidget {
                   const InjectStatusStrip(),
                   SizedBox(height: AppSizes.sectionGap),
                   InjectButton(
-                    onPressed: () {
-                      ref.read(
-                        injectScriptProvider(
-                          debugPort: 9229,
-                          script: "document.body.style.background='red'",
-                        ).future,
-                      );
+                    onPressed: () async {
+                      final l10n = context.l10n;
+                      try {
+                        await ref.read(
+                          launchAndInjectProvider(
+                            debugPort: 9229,
+                            script:
+                                "document.body.style.background='red'",
+                          ).future,
+                        );
+                        SmartDialog.showToast(l10n.injectSuccess);
+                      } on CodexPathNotSetException {
+                        SmartDialog.showToast(l10n.codexPathRequired);
+                      } on CodexAlreadyRunningException {
+                        SmartDialog.showToast(l10n.codexAlreadyRunning);
+                      } catch (e) {
+                        SmartDialog.showToast(
+                          l10n.launchFailed(e.toString()),
+                        );
+                      }
                     },
                   ),
                 ],

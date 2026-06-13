@@ -22,5 +22,17 @@
   "darkTheme": "深色模式",
   "primaryColor": "主题色",
   "reset": "重置",
+  "codexAppPath": "Codex 路径",
+  "codexAppPathNotSet": "未设置",
+  "selectCodexExecutable": "选择 Codex 可执行文件",
+  "codexAlreadyRunning": "Codex 已在运行，请先关闭",
+  "codexPathRequired": "请先在设置中指定 Codex 路径",
+  "launchFailed": "启动失败：{message}",
+  "@launchFailed": {
+    "placeholders": {
+      "message": {"type": "String"}
+    }
+  },
+  "injectSuccess": "注入成功",
   "settingsPersistedDescription": "这些设置会通过 SharedPreferencesAsync 持久化保存。"
 }

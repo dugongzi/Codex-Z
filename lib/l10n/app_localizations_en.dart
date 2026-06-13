@@ -76,6 +76,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reset => 'Reset';
 
   @override
+  String get codexAppPath => 'Codex path';
+
+  @override
+  String get codexAppPathNotSet => 'Not set';
+
+  @override
+  String get selectCodexExecutable => 'Select Codex executable';
+
+  @override
+  String get codexAlreadyRunning =>
+      'Codex is already running, please close it first';
+
+  @override
+  String get codexPathRequired => 'Please set the Codex path in settings first';
+
+  @override
+  String launchFailed(String message) {
+    return 'Launch failed: $message';
+  }
+
+  @override
+  String get injectSuccess => 'Injection successful';
+
+  @override
   String get settingsPersistedDescription =>
       'These settings are persisted with SharedPreferencesAsync.';
 }

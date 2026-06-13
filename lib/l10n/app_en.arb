@@ -22,5 +22,17 @@
   "darkTheme": "Dark mode",
   "primaryColor": "Primary color",
   "reset": "Reset",
+  "codexAppPath": "Codex path",
+  "codexAppPathNotSet": "Not set",
+  "selectCodexExecutable": "Select Codex executable",
+  "codexAlreadyRunning": "Codex is already running, please close it first",
+  "codexPathRequired": "Please set the Codex path in settings first",
+  "launchFailed": "Launch failed: {message}",
+  "@launchFailed": {
+    "placeholders": {
+      "message": {"type": "String"}
+    }
+  },
+  "injectSuccess": "Injection successful",
   "settingsPersistedDescription": "These settings are persisted with SharedPreferencesAsync."
 }

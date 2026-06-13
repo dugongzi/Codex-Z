@@ -26,6 +26,48 @@ class InjectActionDatasource {
     return dio;
   }
 
+  /// 端口已有 CDP 服务在监听则返回 true
+  Future<bool> isDebugPortAlive(int debugPort) async {
+    try {
+      await _dio.getUri<List<dynamic>>(
+        Uri.parse('http://127.0.0.1:$debugPort/json'),
+      );
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// 启动目标程序并附加 --remote-debugging-port 参数
+  Future<void> launchExecutable({
+    required String executablePath,
+    required int debugPort,
+  }) async {
+    await Process.start(
+      executablePath,
+      ['--remote-debugging-port=$debugPort'],
+      mode: ProcessStartMode.detached,
+    );
+  }
+
+  /// 轮询直到出现可注入的 page target 或超时
+  Future<void> waitForDebugPort({
+    required int debugPort,
+    Duration timeout = const Duration(seconds: 30),
+    Duration interval = const Duration(milliseconds: 500),
+  }) async {
+    final deadline = DateTime.now().add(timeout);
+    while (DateTime.now().isBefore(deadline)) {
+      try {
+        await _findPageWebSocketUrl(debugPort);
+        return;
+      } catch (_) {
+        await Future.delayed(interval);
+      }
+    }
+    throw TimeoutException('No page target on port $debugPort');
+  }
+
   Future<void> injectScript({
     required int debugPort,
     required String script,

@@ -75,6 +75,29 @@ class AppLocalizationsZh extends AppLocalizations {
   String get reset => '重置';
 
   @override
+  String get codexAppPath => 'Codex 路径';
+
+  @override
+  String get codexAppPathNotSet => '未设置';
+
+  @override
+  String get selectCodexExecutable => '选择 Codex 可执行文件';
+
+  @override
+  String get codexAlreadyRunning => 'Codex 已在运行，请先关闭';
+
+  @override
+  String get codexPathRequired => '请先在设置中指定 Codex 路径';
+
+  @override
+  String launchFailed(String message) {
+    return '启动失败：$message';
+  }
+
+  @override
+  String get injectSuccess => '注入成功';
+
+  @override
   String get settingsPersistedDescription =>
       '这些设置会通过 SharedPreferencesAsync 持久化保存。';
 }

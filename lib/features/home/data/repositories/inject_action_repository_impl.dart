@@ -8,10 +8,31 @@ class InjectActionRepositoryImpl implements InjectActionRepository {
       : _dataSource = dataSource;
 
   @override
+  Future<bool> isDebugPortAlive({required int debugPort}) {
+    return _dataSource.isDebugPortAlive(debugPort);
+  }
+
+  @override
+  Future<void> launchExecutable({
+    required String executablePath,
+    required int debugPort,
+  }) {
+    return _dataSource.launchExecutable(
+      executablePath: executablePath,
+      debugPort: debugPort,
+    );
+  }
+
+  @override
+  Future<void> waitForDebugPort({required int debugPort}) {
+    return _dataSource.waitForDebugPort(debugPort: debugPort);
+  }
+
+  @override
   Future<void> injectScript({
     required int debugPort,
     required String script,
-  }) async {
-    await _dataSource.injectScript(debugPort: debugPort, script: script);
+  }) {
+    return _dataSource.injectScript(debugPort: debugPort, script: script);
   }
 }
