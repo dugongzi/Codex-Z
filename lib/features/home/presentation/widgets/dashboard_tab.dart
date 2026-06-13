@@ -2,13 +2,15 @@ import 'package:shim/common/widgets/surface_card.dart';
 import 'package:shim/common/widgets/workspace_surface.dart';
 import 'package:shim/core/constants/app_sizes.dart';
 import 'package:shim/core/extensions/context_extensions.dart';
+import 'package:shim/features/home/presentation/providers/inject_action_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class DashboardTab extends StatelessWidget {
+class DashboardTab extends ConsumerWidget {
   const DashboardTab({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return WorkspaceSurface(
       child: Padding(
         padding: EdgeInsets.all(AppSizes.pagePadding),
@@ -33,7 +35,16 @@ class DashboardTab extends StatelessWidget {
                   SizedBox(height: AppSizes.sectionGap),
                   const InjectStatusStrip(),
                   SizedBox(height: AppSizes.sectionGap),
-                  InjectButton(onPressed: () {}),
+                  InjectButton(
+                    onPressed: () {
+                      ref.read(
+                        injectScriptProvider(
+                          debugPort: 9229,
+                          script: "document.body.style.background='red'",
+                        ).future,
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
