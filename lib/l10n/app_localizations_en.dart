@@ -54,6 +54,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get readyStatus => 'Ready';
 
   @override
+  String get codexConnected => 'Codex connected';
+
+  @override
+  String get codexDisconnected => 'Disconnected';
+
+  @override
+  String get checkingStatus => 'Checking...';
+
+  @override
+  String get refresh => 'Refresh';
+
+  @override
   String get systemLanguage => 'System language';
 
   @override

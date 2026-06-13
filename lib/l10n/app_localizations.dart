@@ -182,6 +182,30 @@ abstract class AppLocalizations {
   /// **'就绪'**
   String get readyStatus;
 
+  /// No description provided for @codexConnected.
+  ///
+  /// In zh, this message translates to:
+  /// **'已连接 Codex'**
+  String get codexConnected;
+
+  /// No description provided for @codexDisconnected.
+  ///
+  /// In zh, this message translates to:
+  /// **'未连接'**
+  String get codexDisconnected;
+
+  /// No description provided for @checkingStatus.
+  ///
+  /// In zh, this message translates to:
+  /// **'检测中...'**
+  String get checkingStatus;
+
+  /// No description provided for @refresh.
+  ///
+  /// In zh, this message translates to:
+  /// **'刷新'**
+  String get refresh;
+
   /// No description provided for @systemLanguage.
   ///
   /// In zh, this message translates to:

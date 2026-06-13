@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:shim/core/constants/app_sizes.dart';
 import 'package:shim/core/extensions/context_extensions.dart';
+import 'package:shim/features/home/presentation/providers/inject_action_provider.dart';
 import 'package:shim/features/home/presentation/widgets/inject_button.dart';
 import 'package:shim/features/home/presentation/widgets/open_inspector_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class HomeSidebar extends StatelessWidget {
   const HomeSidebar({super.key, required this.title, required this.children});
@@ -110,12 +115,42 @@ class SidebarBrand extends StatelessWidget {
   }
 }
 
-class SidebarStatus extends StatelessWidget {
-  const SidebarStatus({super.key});
+class SidebarStatus extends HookConsumerWidget {
+  const SidebarStatus({super.key, this.debugPort = 9229});
+
+  final int debugPort;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
+    final asyncStatus =
+        ref.watch(isDebugPortAliveProvider(debugPort: debugPort));
+
+    final pollInterval = asyncStatus.isLoading
+        ? const Duration(seconds: 1)
+        : asyncStatus.value == true
+            ? const Duration(seconds: 10)
+            : const Duration(seconds: 2);
+
+    useEffect(() {
+      final timer = Timer.periodic(pollInterval, (_) {
+        ref.invalidate(isDebugPortAliveProvider(debugPort: debugPort));
+      });
+      return timer.cancel;
+    }, [debugPort, pollInterval]);
+
+    final Color dotColor;
+    final String text;
+    if (asyncStatus.isLoading) {
+      dotColor = colorScheme.onSurfaceVariant;
+      text = context.l10n.checkingStatus;
+    } else if (asyncStatus.value == true) {
+      dotColor = Colors.green;
+      text = context.l10n.codexConnected;
+    } else {
+      dotColor = Colors.red;
+      text = context.l10n.codexDisconnected;
+    }
 
     return Container(
       padding: EdgeInsets.all(10.cw(min: 8, max: 12)),
@@ -134,14 +169,14 @@ class SidebarStatus extends StatelessWidget {
             width: 8,
             height: 8,
             decoration: BoxDecoration(
-              color: colorScheme.primary,
+              color: dotColor,
               shape: BoxShape.circle,
             ),
           ),
           SizedBox(width: AppSizes.itemGap),
           Expanded(
             child: Text(
-              context.l10n.readyStatus,
+              text,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
@@ -149,6 +184,17 @@ class SidebarStatus extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
+          ),
+          IconButton(
+            tooltip: context.l10n.refresh,
+            visualDensity: VisualDensity.compact,
+            iconSize: 16,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            onPressed: () => ref.invalidate(
+              isDebugPortAliveProvider(debugPort: debugPort),
+            ),
+            icon: const Icon(Icons.refresh_rounded),
           ),
         ],
       ),

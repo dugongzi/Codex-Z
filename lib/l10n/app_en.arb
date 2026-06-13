@@ -19,6 +19,10 @@
     }
   },
   "readyStatus": "Ready",
+  "codexConnected": "Codex connected",
+  "codexDisconnected": "Disconnected",
+  "checkingStatus": "Checking...",
+  "refresh": "Refresh",
   "systemLanguage": "System language",
   "chineseLanguage": "Simplified Chinese",
   "englishLanguage": "English",

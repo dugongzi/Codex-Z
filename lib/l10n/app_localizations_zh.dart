@@ -53,6 +53,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get readyStatus => '就绪';
 
   @override
+  String get codexConnected => '已连接 Codex';
+
+  @override
+  String get codexDisconnected => '未连接';
+
+  @override
+  String get checkingStatus => '检测中...';
+
+  @override
+  String get refresh => '刷新';
+
+  @override
   String get systemLanguage => '系统语言';
 
   @override
