@@ -293,7 +293,7 @@ final class OpenInspectorProvider
   }
 }
 
-String _$openInspectorHash() => r'9df91c96155a3980b9e8e828a70411ba5af32e66';
+String _$openInspectorHash() => r'dbcc589edf91019e09b14820c81e4b8708740d3e';
 
 final class OpenInspectorFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<void>, int> {

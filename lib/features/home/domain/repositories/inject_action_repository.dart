@@ -2,8 +2,8 @@ abstract class InjectActionRepository {
   /// 端口是否已有 CDP 服务监听
   Future<bool> isDebugPortAlive({required int debugPort});
 
-  /// 在 Codex 自己窗口里打开 DevTools 面板
-  Future<void> openInspector({required int debugPort});
+  /// 在 page target 上找出 devtools 前端 URL
+  Future<String?> findDevtoolsUrl({required int debugPort});
 
   /// 通过监听端口反查可执行文件路径
   Future<String?> findExecutableByPort({required int debugPort});

@@ -13,8 +13,8 @@ class InjectActionRepositoryImpl implements InjectActionRepository {
   }
 
   @override
-  Future<void> openInspector({required int debugPort}) {
-    return _dataSource.openInspector(debugPort);
+  Future<String?> findDevtoolsUrl({required int debugPort}) {
+    return _dataSource.findDevtoolsUrl(debugPort);
   }
 
   @override

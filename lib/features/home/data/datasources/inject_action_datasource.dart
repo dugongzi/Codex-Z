@@ -124,7 +124,10 @@ class InjectActionDatasource {
   }) async {
     await Process.start(
       executablePath,
-      ['--remote-debugging-port=$debugPort'],
+      [
+        '--remote-debugging-port=$debugPort',
+        '--remote-allow-origins=*',
+      ],
       mode: ProcessStartMode.detached,
     );
   }
@@ -190,21 +193,24 @@ class InjectActionDatasource {
     }
   }
 
-  /// 在 Codex 自己窗口里打开 DevTools 面板
-  Future<void> openInspector(int debugPort) async {
-    final wsUrl = await _findPageWebSocketUrl(debugPort);
-    final channel = IOWebSocketChannel.connect(Uri.parse(wsUrl));
-    final broadcast = channel.stream.asBroadcastStream();
+  /// 在 page target 上拿到 devtoolsFrontendUrl，用于系统浏览器打开完整 DevTools
+  Future<String?> findDevtoolsUrl(int debugPort) async {
     try {
-      await _sendCommand(
-        channel,
-        broadcast,
-        id: 1,
-        method: 'Inspector.enable',
+      final response = await _dio.getUri<List<dynamic>>(
+        Uri.parse('http://127.0.0.1:$debugPort/json'),
       );
-    } finally {
-      await channel.sink.close();
-    }
+      final targets = response.data ?? const [];
+      for (final raw in targets) {
+        final target = raw as Map<String, dynamic>;
+        if (target['type'] == 'page' &&
+            target['devtoolsFrontendUrl'] is String) {
+          final relative = target['devtoolsFrontendUrl'] as String;
+          if (relative.startsWith('http')) return relative;
+          return 'http://127.0.0.1:$debugPort$relative';
+        }
+      }
+    } catch (_) {}
+    return null;
   }
 
   Future<String> _findPageWebSocketUrl(int debugPort) async {

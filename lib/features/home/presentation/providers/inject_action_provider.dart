@@ -3,6 +3,7 @@ import 'package:shim/features/home/data/datasources/inject_action_datasource.dar
 import 'package:shim/features/home/data/repositories/inject_action_repository_impl.dart';
 import 'package:shim/features/home/domain/repositories/inject_action_repository.dart';
 import 'package:shim/features/settings/presentation/providers/config_query_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'inject_action_provider.g.dart';
 
@@ -33,9 +34,12 @@ Future<String?> findExecutableByPort(Ref ref, {required int debugPort}) async {
 
 @riverpod
 Future<void> openInspector(Ref ref, {required int debugPort}) async {
-  await ref.read(injectActionRepositoryProvider).openInspector(
-        debugPort: debugPort,
-      );
+  final repo = ref.read(injectActionRepositoryProvider);
+  final url = await repo.findDevtoolsUrl(debugPort: debugPort);
+  if (url == null) {
+    throw Exception('未检测到 Codex 正在运行');
+  }
+  await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
 }
 
 @riverpod
