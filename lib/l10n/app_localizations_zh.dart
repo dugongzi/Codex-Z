@@ -33,6 +33,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get welcome => 'Codex Z';
 
   @override
+  String get inject => '注入';
+
+  @override
+  String get injectPanelTitle => '界面注入';
+
+  @override
+  String get injectPanelDescription => '将 Codex Z 的控制界面注入到目标环境，用于后续连接、调试和操作。';
+
+  @override
+  String get injectReadyStatus => '等待注入';
+
+  @override
   String get systemLanguage => '系统语言';
 
   @override

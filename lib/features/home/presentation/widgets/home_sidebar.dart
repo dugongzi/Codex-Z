@@ -3,16 +3,10 @@ import 'package:codex_z/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 
 class HomeSidebar extends StatelessWidget {
-  const HomeSidebar({
-    super.key,
-    required this.tabs,
-    required this.selectedIndex,
-    required this.onChanged,
-  });
+  const HomeSidebar({super.key, required this.title, required this.children});
 
-  final List<HomeTabItem> tabs;
-  final int selectedIndex;
-  final ValueChanged<int> onChanged;
+  final String title;
+  final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {
@@ -45,17 +39,17 @@ class HomeSidebar extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SidebarBrand(title: context.l10n.homeTitle),
+            SidebarBrand(title: title),
             SizedBox(height: AppSizes.sectionGap),
-            for (var index = 0; index < tabs.length; index++) ...[
-              HomeNavigationTab(
-                item: tabs[index],
-                selected: selectedIndex == index,
-                onTap: () => onChanged(index),
+            Expanded(
+              child: ListView.separated(
+                padding: EdgeInsets.zero,
+                itemCount: children.length,
+                separatorBuilder: (context, index) =>
+                    SizedBox(height: AppSizes.itemGap),
+                itemBuilder: (context, index) => children[index],
               ),
-              if (index != tabs.length - 1) SizedBox(height: AppSizes.itemGap),
-            ],
-            const Spacer(),
+            ),
             const SidebarStatus(),
           ],
         ),
@@ -154,93 +148,4 @@ class SidebarStatus extends StatelessWidget {
       ),
     );
   }
-}
-
-class HomeNavigationTab extends StatelessWidget {
-  const HomeNavigationTab({
-    super.key,
-    required this.item,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final HomeTabItem item;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final foreground = selected
-        ? colorScheme.onPrimary
-        : colorScheme.onSurface.withValues(alpha: 0.78);
-    final background = selected
-        ? colorScheme.primary
-        : colorScheme.surface.withValues(alpha: context.isDark ? 0.04 : 0.26);
-
-    return Tooltip(
-      message: item.label,
-      waitDuration: const Duration(milliseconds: 500),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppSizes.cardRadius),
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 160),
-          height: AppSizes.tabHeight,
-          padding: EdgeInsets.symmetric(horizontal: AppSizes.itemGap + 2),
-          decoration: BoxDecoration(
-            color: background,
-            borderRadius: BorderRadius.circular(AppSizes.cardRadius),
-            border: Border.all(
-              color: selected
-                  ? colorScheme.primary.withValues(alpha: 0.18)
-                  : colorScheme.outlineVariant.withValues(alpha: 0.20),
-            ),
-            boxShadow: selected
-                ? [
-                    BoxShadow(
-                      color: colorScheme.primary.withValues(alpha: 0.24),
-                      blurRadius: 18,
-                      offset: const Offset(0, 8),
-                    ),
-                  ]
-                : null,
-          ),
-          child: Row(
-            children: [
-              Icon(
-                selected ? item.selectedIcon : item.icon,
-                size: AppSizes.tabIconSize,
-                color: foreground,
-              ),
-              SizedBox(width: AppSizes.itemGap),
-              Expanded(
-                child: Text(
-                  item.label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: foreground,
-                    fontWeight: selected ? FontWeight.w800 : FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class HomeTabItem {
-  const HomeTabItem({
-    required this.icon,
-    required this.selectedIcon,
-    required this.label,
-  });
-
-  final IconData icon;
-  final IconData selectedIcon;
-  final String label;
 }

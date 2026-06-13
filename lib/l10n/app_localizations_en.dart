@@ -33,6 +33,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcome => 'Codex Z';
 
   @override
+  String get inject => 'Inject';
+
+  @override
+  String get injectPanelTitle => 'UI Injection';
+
+  @override
+  String get injectPanelDescription =>
+      'Inject the Codex Z control surface into the target environment for connection, debugging, and operation.';
+
+  @override
+  String get injectReadyStatus => 'Ready to inject';
+
+  @override
   String get systemLanguage => 'System language';
 
   @override

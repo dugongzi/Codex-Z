@@ -146,6 +146,30 @@ abstract class AppLocalizations {
   /// **'Codex Z'**
   String get welcome;
 
+  /// No description provided for @inject.
+  ///
+  /// In zh, this message translates to:
+  /// **'注入'**
+  String get inject;
+
+  /// No description provided for @injectPanelTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'界面注入'**
+  String get injectPanelTitle;
+
+  /// No description provided for @injectPanelDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'将 Codex Z 的控制界面注入到目标环境，用于后续连接、调试和操作。'**
+  String get injectPanelDescription;
+
+  /// No description provided for @injectReadyStatus.
+  ///
+  /// In zh, this message translates to:
+  /// **'等待注入'**
+  String get injectReadyStatus;
+
   /// No description provided for @systemLanguage.
   ///
   /// In zh, this message translates to:
